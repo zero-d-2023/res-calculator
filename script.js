@@ -78,11 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const baseRatio = getRatio(bw, bh);
         const actualRatio = getRatio(w, h);
 
-        if (drift > 0 && drift < 1.0) {
-            // Drift is small, show Base Ratio + Info Icon
+        if (drift > 0 && drift < 2.0) {
+            // Drift is small (< 2.0px), show Base Ratio + Info Icon
             currentRatioText.textContent = baseRatio;
             ratioInfoIcon.classList.remove('hidden');
-            ratioPopupText.innerHTML = `조절된 정밀 비율은 <strong>${actualRatio}</strong> 이지만, 1픽셀 이내 오차를 무시하면 원본과 동일한 <strong>${baseRatio}</strong> 입니다.`;
+            ratioPopupText.innerHTML = `조절된 정밀 비율은 <strong>${actualRatio}</strong> 이지만, 2픽셀 이내 오차를 무시하면 원본과 동일한 <strong>${baseRatio}</strong> 입니다.`;
         } else {
             // No drift or large drift
             currentRatioText.textContent = actualRatio;
@@ -223,22 +223,22 @@ document.addEventListener('DOMContentLoaded', () => {
         scaleBtns.forEach(b => b.classList.remove('active'));
     }
 
-    // Snap Even with Ratio Preservation
+    // Snap Even with Ratio Preservation (Ceiling Priority to avoid shrinking)
     snapEvenBtn.addEventListener('click', () => {
         isUpdating = true;
         const bw = parseFloat(inputBaseW.value);
         const bh = parseFloat(inputBaseH.value);
         
-        // 1. Target Width to nearest Even
-        let w = Math.round(parseFloat(inputResW.value) / 2) * 2;
-        // 2. Calculate Height based on exact original ratio
-        let h = (w * bh) / bw;
-        // 3. Snap Height to nearest Even
-        h = Math.round(h / 2) * 2;
+        // 1. Target Width: Round UP to next Even
+        // (Math.ceil(val/2)*2 ensures we never go smaller than original decimal)
+        let w = Math.ceil(parseFloat(inputResW.value) / 2) * 2;
         
-        // Optional: Re-adjust Width if Height shift was significant? 
-        // For now, snapping both to nearest even is the standard most users expect.
-
+        // 2. Calculate Height based on exact original ratio from the new Width
+        let h_theory = (w * bh) / bw;
+        
+        // 3. Snap Height: Round UP to next Even
+        let h = Math.ceil(h_theory / 2) * 2;
+        
         inputResW.value = w;
         inputResH.value = h;
         isUpdating = false;
