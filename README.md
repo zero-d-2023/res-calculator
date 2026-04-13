@@ -1,6 +1,6 @@
-# 🎬 Resolution Master
+# 🎬 Resolution Down-Scaler
 
-**Resolution Master**는 영상 컨텐츠 제작자를 위한 전문적이고 직관적인 해상도 및 화면비 계산기입니다. 4K, QHD, FHD 등 표준 규격을 기반으로 자유롭게 해상도를 조절하고, 시각적으로 비교할 수 있습니다.
+**Resolution Down-Scaler**는 고해상도 영상 컨텐츠를 축소된 비율로 작업할 때 유용한 전문 해상도 및 화면비 계산기입니다. 4K, QHD, FHD 등 표준 규격을 기반으로 자유롭게 해상도를 조절하고, 시각적으로 비교할 수 있습니다.
 
 ## ✨ 주요 기능
 
