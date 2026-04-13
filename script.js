@@ -89,6 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
             ratioInfoIcon.classList.add('hidden');
             ratioPopup.classList.add('hidden');
         }
+
+        // --- Reset Button Dynamic Glow ---
+        const resetBtn = document.querySelector('.reset-btn');
+        if (resetBtn) {
+            // Using a tiny epsilon or simple rounding to check for differences
+            const diffW = Math.abs(parseFloat(bw) - parseFloat(w));
+            const diffH = Math.abs(parseFloat(bh) - parseFloat(h));
+            const isModified = diffW > 0.01 || diffH > 0.01;
+            resetBtn.classList.toggle('reset-active-glow', isModified);
+        }
         
         checkEvenStatus();
     }
@@ -193,7 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
     scaleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             clearScaleHighlights();
-            btn.classList.add('active');
+            // Only add 'active' highlight if it's NOT the reset button
+            if (!btn.classList.contains('reset-btn')) {
+                btn.classList.add('active');
+            }
             const percent = parseFloat(btn.dataset.scale);
             customScaleInput.value = percent === 100 ? "" : percent;
             applyScale(percent);

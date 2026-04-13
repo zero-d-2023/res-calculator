@@ -25,22 +25,22 @@
                         <h2>1. 원래 해상도 (Base)</h2>
                         <select id="res-preset" class="preset-select">
                             <option value="">표준 규격...</option>
+                            <option value="7680x4320">8K UHD (7680x4320)</option>
                             <option value="3840x2160">4K UHD (3840x2160)</option>
                             <option value="2560x1440">QHD (2560x1440)</option>
                             <option value="1920x1080">FHD (1080p)</option>
-                            <option value="1280x720">HD (720p)</option>
                         </select>
                     </div>
 
                     <div class="scaling-input-row">
                         <div class="res-box">
                             <label>Origin Width</label>
-                            <input type="number" id="base-w" value="3840">
+                            <input type="number" id="base-w" value="7680">
                         </div>
                         <div class="link-placeholder"></div>
                         <div class="res-box">
                             <label>Origin Height</label>
-                            <input type="number" id="base-h" value="2160">
+                            <input type="number" id="base-h" value="4320">
                         </div>
                     </div>
                     <div class="ratio-display small-grey">
@@ -54,7 +54,7 @@
                     <div class="scaling-input-row">
                         <div class="res-box">
                             <label>Scaled Width</label>
-                            <input type="number" id="res-w" value="3840">
+                            <input type="number" id="res-w" value="7680">
                         </div>
                         
                         <div class="link-indicator" id="link-icon">
@@ -63,7 +63,7 @@
 
                         <div class="res-box">
                             <label>Scaled Height</label>
-                            <input type="number" id="res-h" value="2160">
+                            <input type="number" id="res-h" value="4320">
                         </div>
 
                         <button id="lock-btn" class="lock-toggle-btn active" title="비율 고정">
@@ -73,7 +73,7 @@
                     <div class="ratio-display small-grey">
                         <div class="ratio-info-wrap">
                             Scaled Ratio: <strong id="current-ratio-text">16:9</strong>
-                            <span id="ratio-info-icon" class="info-icon hidden">ⓘ</span>
+                            <span id="ratio-info-icon" class="info-icon hidden">⚠️</span>
                             <div id="ratio-popup" class="ratio-popup hidden">
                                 <p id="ratio-popup-text"></p>
                                 <button id="close-popup" class="close-btn-text">Close</button>
@@ -114,7 +114,6 @@
 
             <div class="glass-panel visualizer-panel">
                 <div class="visualizer-header">
-                    <h2>스케일 가이드</h2>
                 </div>
                 <div class="visual-stage-container">
                     <div id="visual-stage" class="stage-frame">
