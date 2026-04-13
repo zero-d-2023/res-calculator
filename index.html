@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolution Master | 영상 해상도 & 화면비 계산기</title>
+    <meta name="description" content="영상 컨텐츠 제작자를 위한 전문적인 해상도 및 화면비 계산기입니다.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1 id="main-title">Resolution Master</h1>
+            <p>영상 컨텐츠를 위한 해상도와 화면비를 완벽하게 설계하세요.</p>
+        </header>
+
+        <main>
+            <div class="glass-panel main-controls">
+                <!-- 원래 해상도 (Base) -->
+                <section class="resolution-section original-section">
+                    <div class="section-header">
+                        <h2>1. 원래 해상도 (Base)</h2>
+                        <select id="res-preset" class="preset-select">
+                            <option value="">표준 규격...</option>
+                            <option value="3840x2160">4K UHD (3840x2160)</option>
+                            <option value="2560x1440">QHD (2560x1440)</option>
+                            <option value="1920x1080">FHD (1080p)</option>
+                            <option value="1280x720">HD (720p)</option>
+                        </select>
+                    </div>
+
+                    <div class="scaling-input-row">
+                        <div class="res-box">
+                            <label>Origin Width</label>
+                            <input type="number" id="base-w" value="3840">
+                        </div>
+                        <div class="link-placeholder"></div>
+                        <div class="res-box">
+                            <label>Origin Height</label>
+                            <input type="number" id="base-h" value="2160">
+                        </div>
+                    </div>
+                    <div class="ratio-display small-grey">
+                        Original Ratio: <strong id="base-ratio-text">16:9</strong>
+                    </div>
+                </section>
+
+                <!-- 조절된 해상도 (Scaled) -->
+                <section class="resolution-section scaled-section">
+                    <h2>2. 조절된 해상도 (Scaled)</h2>
+                    <div class="scaling-input-row">
+                        <div class="res-box">
+                            <label>Scaled Width</label>
+                            <input type="number" id="res-w" value="3840">
+                        </div>
+                        
+                        <div class="link-indicator" id="link-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                        </div>
+
+                        <div class="res-box">
+                            <label>Scaled Height</label>
+                            <input type="number" id="res-h" value="2160">
+                        </div>
+
+                        <button id="lock-btn" class="lock-toggle-btn active" title="비율 고정">
+                            <span class="lock-icon">🔒</span>
+                        </button>
+                    </div>
+                    <div class="ratio-display small-grey">
+                        <div class="ratio-info-wrap">
+                            Scaled Ratio: <strong id="current-ratio-text">16:9</strong>
+                            <span id="ratio-info-icon" class="info-icon hidden">ⓘ</span>
+                            <div id="ratio-popup" class="ratio-popup hidden">
+                                <p id="ratio-popup-text"></p>
+                                <button id="close-popup" class="close-btn-text">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="scaling-section">
+                    <h3>퍼센티지 조정</h3>
+                    <div class="scale-buttons">
+                        <button class="scale-btn" data-scale="90">90%</button>
+                        <button class="scale-btn" data-scale="80">80%</button>
+                        <button class="scale-btn" data-scale="75">75%</button>
+                        <button class="scale-btn" data-scale="70">70%</button>
+                        <button class="scale-btn" data-scale="60">60%</button>
+                        <button class="scale-btn" data-scale="50">50%</button>
+                    </div>
+
+                    <div class="custom-scale">
+                        <label>직접 입력</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="custom-scale-input" placeholder="Scale" min="1" max="500">
+                            <span>%</span>
+                        </div>
+                    </div>
+
+                    <button class="scale-btn reset-btn full-width-btn" data-scale="100">원래 해상도로 복구</button>
+                    
+                    <div id="even-fix-placeholder" class="fix-placeholder">
+                        <div id="even-fix-area" class="alert-area hidden">
+                            <p>💡 해상도가 홀수이거나 소수점입니다.</p>
+                            <button id="snap-even-btn" class="action-btn small-btn">해상도를 짝수 정수로 만들기</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="glass-panel visualizer-panel">
+                <div class="visualizer-header">
+                    <h2>스케일 가이드</h2>
+                </div>
+                <div class="visual-stage-container">
+                    <div id="visual-stage" class="stage-frame">
+                        <div id="reference-frame" class="stage-frame-box reference">
+                            <span class="frame-label top-left" id="base-label-text">Original Base</span>
+                        </div>
+                        <div id="target-frame" class="stage-frame-box target active">
+                            <span id="target-label" class="frame-label center">3840 x 2160</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Resolution Master. Designed by rhymage</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
